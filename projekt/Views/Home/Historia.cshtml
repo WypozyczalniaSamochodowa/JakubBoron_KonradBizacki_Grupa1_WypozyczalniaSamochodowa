@@ -1,0 +1,38 @@
+﻿@model List<projekt.Models.Car>
+@{
+    Layout = "_Layout";
+}
+<link rel="stylesheet" href="~/css/site-subpages.css" />
+<h2>Historia wypożyczeń</h2>
+
+<table border="1" cellpadding="10">
+    <tr>
+        <th>Samochód</th>
+        <th>Data wypożyczenia</th>
+        <th>Liczba dni</th>
+        <th>Koszt całkowity</th>
+    </tr>
+    @foreach (var car in Model)
+    {
+        if (car.Wypozyczenia.Count == 0)
+        {
+            <tr>
+                <td colspan="4">Brak wypożyczeń dla samochodu @car.Marka @car.Model</td>
+            </tr>
+        }
+        else
+        {
+            foreach (var wyp in car.Wypozyczenia)
+            {
+                <tr>
+                    <td>@car.Marka @car.Model</td>
+                    <td>@wyp.Data.ToString("yyyy-MM-dd")</td>
+                    <td>@wyp.Dni</td>
+                    <td>@wyp.CenaCalkowita zł</td>
+                </tr>
+            }
+        }
+    }
+</table>
+
+<a asp-action="Index">Powrót do listy samochodów</a>

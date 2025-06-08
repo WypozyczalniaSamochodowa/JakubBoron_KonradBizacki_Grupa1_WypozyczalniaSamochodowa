@@ -1,0 +1,217 @@
+﻿@model List<projekt.Models.Car>
+
+@{
+    ViewData["Title"] = "Wypożyczalnia";
+}
+
+<style>
+    body {
+        background-color: #0d0d0d;
+        color: #cccccc;
+        font-family: Arial, sans-serif;
+        margin: 20px;
+    }
+
+    h2 {
+        border-bottom: 3px solid #3b582d;
+        padding-bottom: 8px;
+        color: #3b582d;
+    }
+
+    .car-card {
+        border: 2px solid #3b582d;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 20px;
+        display: flex;
+        gap: 20px;
+        background-color: #1a1a1a;
+        transition: box-shadow 0.3s ease;
+        position: relative;
+    }
+
+        .car-card:hover {
+            box-shadow: 0 0 15px #3b582d;
+        }
+
+    .car-image {
+        width: 220px;
+        height: 140px;
+        background-color: #222;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #777;
+        font-style: italic;
+        font-size: 14px;
+        flex-shrink: 0;
+    }
+
+    .car-details {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .car-name {
+        font-size: 24px;
+        font-weight: bold;
+        color: #3b582d;
+        margin-bottom: 8px;
+        border-bottom: 2px solid #3b582d;
+        padding-bottom: 4px;
+        display: inline-block;
+    }
+
+    .car-info p {
+        margin: 4px 0;
+    }
+
+    .car-status {
+        font-weight: bold;
+        margin-top: 8px;
+    }
+
+    .car-actions {
+        margin-top: 10px;
+    }
+
+        .car-actions a,
+        .more-info-btn {
+            display: inline-block;
+            margin-right: 10px;
+            padding: 8px 14px;
+            background-color: transparent;
+            border: 2px solid #3b582d;
+            color: #3b582d;
+            text-decoration: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            user-select: none;
+        }
+
+            .car-actions a:hover,
+            .more-info-btn:hover {
+                background-color: #3b582d;
+                color: #0d0d0d;
+            }
+
+        .car-actions span {
+            color: #888;
+            font-style: italic;
+            margin-top: 10px;
+            display: inline-block;
+        }
+
+    .message {
+        color: #3b582d;
+        margin-bottom: 15px;
+    }
+
+    .car-extra-info {
+        margin-top: 15px;
+        padding: 10px;
+        background-color: #222;
+        border: 1px solid #3b582d;
+        border-radius: 6px;
+        color: #bbb;
+        display: none;
+        font-size: 14px;
+    }
+
+    .car-card {
+        position: relative;
+        border: 2px solid #3b582d;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 20px;
+        display: flex;
+        gap: 20px;
+        background-color: #1a1a1a;
+        transition: box-shadow 0.3s ease;
+    }
+
+        .car-card:hover {
+            box-shadow: 0 0 15px #3b582d;
+        }
+
+    .car-extra-info {
+        margin-top: 10px;
+        padding: 10px;
+        background-color: #222;
+        border: 1px solid #3b582d;
+        border-radius: 6px;
+        color: #bbb;
+        font-size: 14px;
+        display: none;
+    }
+
+    .car-card:hover + .car-extra-info {
+        display: block;
+    }
+
+</style>
+
+<h2>Wypożyczalnia samochodów</h2>
+
+@if (ViewBag.Message != null)
+{
+    <div class="message">@ViewBag.Message</div>
+}
+
+@foreach (var car in Model)
+{
+    <div class="car-card" id="car-@car.Id">
+        <div class="car-image">
+            Zdjęcie<br />w przyszłości
+        </div>
+        <div class="car-details">
+            <div>
+                <div class="car-name">@car.Marka @car.Model</div>
+                <div class="car-info">
+                    <p><strong>Cena za dzień:</strong> @car.CenaZaDzien zł</p>
+                    <p class="car-status">Status: @(car.Dostepny ? "Dostępny" : "Wypożyczony")</p>
+                </div>
+            </div>
+
+            <div class="car-actions">
+                @if (car.Dostepny)
+                {
+                    <a href="/Home/Szczegoly/@car.Id">Wypożycz</a>
+                }
+                else
+                {
+                    <span>Niedostępny</span>
+                }
+                 
+            </div>
+        </div>
+    </div>
+
+    <div class="car-extra-info" id="extra-info-@car.Id">
+        <p><strong>Silnik:</strong> @car.Silnik</p>
+        <p><strong>Spalanie:</strong> @car.Spalanie</p>
+        <p><strong>Moc:</strong> @car.MocKM KM</p>
+        <p><strong>Przyspieszenie 0-100 km/h:</strong> @car.PrzyspieszenieSek s</p>
+        <p><strong>Napęd:</strong> @car.Naped</p>
+    </div>
+}
+
+<script>
+    document.querySelectorAll('.more-info-btn').forEach(button => {
+        button.addEventListener('click', () => {
+            const carId = button.getAttribute('data-carid');
+            const infoDiv = document.getElementById('extra-info-' + carId);
+            if (infoDiv.style.display === 'block') {
+                infoDiv.style.display = 'none';
+                button.textContent = 'Więcej informacji';
+            } else {
+                infoDiv.style.display = 'block';
+                button.textContent = 'Ukryj informacje';
+            }
+        });
+    });
+</script>

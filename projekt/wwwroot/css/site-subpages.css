@@ -1,0 +1,105 @@
+﻿/* site-subpages.css */
+
+/* Tło i kolory podstawowe */
+body {
+    background-color: #121212; /* bardzo ciemne tło */
+    color: #e0e0e0; /* jasny tekst dla kontrastu */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 20px;
+}
+
+/* Kontener dla zawartości podstron */
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    background-color: #1e1e1e; /* ciemny panel */
+    padding: 25px 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 255, 100, 0.2); /* lekki limonkowy cień */
+}
+
+/* Nagłówki */
+h2, h3 {
+    color: #a3be8c; /* stonowana limonka */
+    border-bottom: 2px solid #6a8f4c; /* limonkowe podkreślenie */
+    padding-bottom: 8px;
+    margin-bottom: 20px;
+}
+
+/* Formularze */
+form {
+    margin-top: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+}
+
+input[type="number"], input[type="text"], select {
+    padding: 8px 10px;
+    border: 2px solid #6a8f4c;
+    border-radius: 4px;
+    background-color: #2b2b2b;
+    color: #e0e0e0;
+    width: 100%;
+    max-width: 150px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+    input[type="number"]:focus, input[type="text"]:focus, select:focus {
+        border-color: #a3be8c;
+        outline: none;
+    }
+
+/* Przycisk */
+button {
+    margin-top: 15px;
+    background-color: #6a8f4c;
+    border: none;
+    padding: 10px 20px;
+    color: #121212;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+    button:hover {
+        background-color: #a3be8c;
+    }
+
+/* Informacje o samochodzie */
+.car-info {
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+    .car-info p {
+        margin: 6px 0;
+    }
+
+/* Komunikaty błędów */
+.validation-summary-errors {
+    color: #ff6b6b;
+    background-color: #2a1a1a;
+    padding: 12px 15px;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+/* Link do powrotu */
+a.back-link {
+    display: inline-block;
+    margin-top: 25px;
+    color: #a3be8c;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+    a.back-link:hover {
+        text-decoration: underline;
+    }
