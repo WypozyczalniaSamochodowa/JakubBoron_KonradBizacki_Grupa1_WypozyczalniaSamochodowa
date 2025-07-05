@@ -66,7 +66,7 @@ Główna logika kontrolera:
 
 ## 🚀 Instalacja
 
-git clone https://github.com/twoj-uzytkownik/CarRentalApp.git
+git clone https://github.com/WypozyczalniaSamochodowa/JakubBoron_KonradBizacki_Grupa1_WypozyczalniaSamochodowa
 - cd CarRentalApp
 - dotnet restore
 - dotnet run
