@@ -1,117 +1,109 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using projekt.Data;
 using projekt.Models;
-using System.Collections.Generic;
+using System;
+using System.Linq;
 
 namespace projekt.Controllers
 {
     public class HomeController : Controller
     {
-        private static List<Car> samochody = new List<Car>
-{
-    new Car {
-        Id = 1, Marka = "Toyota", Model = "Corolla", CenaZaDzien = 120, Dostepny = true,
-        Silnik = "1.8L I4", Spalanie = "6.5 L/100 km", MocKM = 140, PrzyspieszenieSek = 9.5m, Naped = "FWD"
-    },
+        private readonly AppDbContext _context;
 
-    new Car {
-        Id = 2, Marka = "BMW", Model = "M3", CenaZaDzien = 350, Dostepny = true,
-        Silnik = "3.0L I6 Turbo", Spalanie = "9.0 L/100 km", MocKM = 480, PrzyspieszenieSek = 4.1m, Naped = "RWD"
-    },
-
-    new Car {
-        Id = 3, Marka = "Volkswagen", Model = "Golf GTI", CenaZaDzien = 180, Dostepny = true,
-        Silnik = "2.0L I4 Turbo", Spalanie = "7.5 L/100 km", MocKM = 220, PrzyspieszenieSek = 6.4m, Naped = "FWD"
-    },
-
-    new Car {
-        Id = 4, Marka = "Porsche", Model = "911 Carrera", CenaZaDzien = 600, Dostepny = true,
-        Silnik = "3.0L Boxer 6", Spalanie = "10.2 L/100 km", MocKM = 385, PrzyspieszenieSek = 4.2m, Naped = "RWD"
-    },
-
-    new Car {
-        Id = 5, Marka = "Ferrari", Model = "488 GTB", CenaZaDzien = 1200, Dostepny = true,
-        Silnik = "3.9L V8 Twin-Turbo", Spalanie = "13.1 L/100 km", MocKM = 670, PrzyspieszenieSek = 3.0m, Naped = "RWD"
-    },
-
-    new Car {
-        Id = 6, Marka = "Lamborghini", Model = "Hurac�n", CenaZaDzien = 1500, Dostepny = true,
-        Silnik = "5.2L V10", Spalanie = "12.5 L/100 km", MocKM = 610, PrzyspieszenieSek = 2.9m, Naped = "AWD"
-    },
-
-    new Car {
-        Id = 7, Marka = "Audi", Model = "R8", CenaZaDzien = 1300, Dostepny = true,
-        Silnik = "5.2L V10", Spalanie = "13.0 L/100 km", MocKM = 540, PrzyspieszenieSek = 3.4m, Naped = "AWD"
-    },
-
-    new Car {
-        Id = 8, Marka = "McLaren", Model = "720S", CenaZaDzien = 1600, Dostepny = true,
-        Silnik = "4.0L V8 Twin-Turbo", Spalanie = "11.9 L/100 km", MocKM = 710, PrzyspieszenieSek = 2.9m, Naped = "RWD"
-    },
-
-    new Car {
-        Id = 9, Marka = "Nissan", Model = "GT-R", CenaZaDzien = 900, Dostepny = true,
-        Silnik = "3.8L V6 Twin-Turbo", Spalanie = "11.2 L/100 km", MocKM = 565, PrzyspieszenieSek = 2.9m, Naped = "AWD"
-    },
-
-    new Car {
-        Id = 10, Marka = "Chevrolet", Model = "Corvette C8", CenaZaDzien = 1000, Dostepny = true,
-        Silnik = "6.2L V8", Spalanie = "13.7 L/100 km", MocKM = 495, PrzyspieszenieSek = 2.8m, Naped = "RWD"
-    }
-};
-
+        public HomeController(AppDbContext context)
+        {
+            _context = context;
+        }
 
         public IActionResult Index()
         {
-            return View(samochody);
+            var auta = _context.Samochody.ToList();
+            var dostepne = auta.Where(c => c.Dostepny).ToList();
+            return View(dostepne);
         }
 
         public IActionResult Szczegoly(int id)
         {
-            var auto = samochody.Find(c => c.Id == id);
-            if (auto == null) return RedirectToAction("Index");
+            var auto = _context.Samochody
+                .Include(a => a.Wypozyczenia)
+                .FirstOrDefault(c => c.Id == id);
+
+            if (auto == null)
+                return NotFound();
+
             return View(auto);
         }
 
         [HttpPost]
-        public IActionResult PotwierdzWypozyczenie(int id, int dni)
+        public IActionResult PotwierdzWypozyczenie(
+            int id, int dni,
+            string imie, string nazwisko,
+            string email, string telefon,
+            string wiek18)
         {
-            var auto = samochody.Find(c => c.Id == id);
-            if (auto == null || !auto.Dostepny) return RedirectToAction("Index");
+            var auto = _context.Samochody
+                .Include(c => c.Wypozyczenia)
+                .FirstOrDefault(c => c.Id == id);
+
+            if (auto == null)
+                return RedirectToAction("Index");
+
+            if (wiek18 != "on")
+            {
+                ModelState.AddModelError("", "Musisz mieć ukończone 18 lat.");
+                return View("Szczegoly", auto);
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return View("Szczegoly", auto);
+            }
+
+            if (!auto.Dostepny)
+            {
+                return RedirectToAction("Index");
+            }
+
+            var klient = _context.Klienci.FirstOrDefault(k => k.Email == email);
+            if (klient == null)
+            {
+                klient = new Klient
+                {
+                    Imie = imie,
+                    Nazwisko = nazwisko,
+                    Email = email,
+                    Telefon = telefon
+                };
+                _context.Klienci.Add(klient);
+                _context.SaveChanges();
+            }
 
             decimal cena = auto.CenaZaDzien * dni;
-
-            // Zni�ki
             if (dni >= 30)
-                cena *= 0.85m; // 15% rabatu
+                cena *= 0.85m;
             else if (dni >= 7)
-                cena *= 0.90m; // 10% rabatu
+                cena *= 0.90m;
 
-            auto.Dostepny = false;
-            auto.Wypozyczenia.Add(new Wypozyczenie
+            var wypozyczenie = new Wypozyczenie
             {
-                Dni = dni,
-                CenaCalkowita = cena,
-                Data = DateTime.Now
-            });
+                CarId = auto.Id,
+                KlientId = klient.Id,
+                DataOd = DateTime.Now,
+                DataDo = DateTime.Now.AddDays(dni),
+                CenaCalkowita = cena
+                // Dni jest właściwością tylko do odczytu – NIE ustawiamy ręcznie
+            };
+
+            _context.Wypozyczenia.Add(wypozyczenie);
+            auto.Dostepny = false;
+
+            _context.SaveChanges();
 
             ViewBag.Cena = cena;
             ViewBag.Dni = dni;
+
             return View("Potwierdzenie", auto);
-        }
-
-        public IActionResult Zwroc(int id)
-        {
-            var auto = samochody.Find(c => c.Id == id);
-            if (auto != null)
-            {
-                auto.Dostepny = true;
-            }
-            return RedirectToAction("Index");
-        }
-
-        public IActionResult Historia()
-        {
-            return View(samochody);
         }
     }
 }

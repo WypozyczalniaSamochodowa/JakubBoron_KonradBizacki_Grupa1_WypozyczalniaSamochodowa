@@ -1,105 +1,225 @@
-﻿/* site-subpages.css */
-
-/* Tło i kolory podstawowe */
+﻿/* Podstawowe ustawienia */
 body {
-    background-color: #121212; /* bardzo ciemne tło */
-    color: #e0e0e0; /* jasny tekst dla kontrastu */
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
-    padding: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #121212;
+    color: #eee;
 }
 
-/* Kontener dla zawartości podstron */
-.container {
-    max-width: 900px;
-    margin: 0 auto;
-    background-color: #1e1e1e; /* ciemny panel */
-    padding: 25px 30px;
-    border-radius: 8px;
-    box-shadow: 0 0 15px rgba(0, 255, 100, 0.2); /* lekki limonkowy cień */
+/* Główny kontener: flex na poziomo */
+.glowny {
+    max-width: 1100px;
+    margin: 40px auto;
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+    align-items: flex-start;
 }
 
-/* Nagłówki */
-h2, h3 {
-    color: #a3be8c; /* stonowana limonka */
-    border-bottom: 2px solid #6a8f4c; /* limonkowe podkreślenie */
-    padding-bottom: 8px;
+/* Lewa kolumna (dane + formularz) */
+.lewa {
+    flex: 1 1 550px;
+    min-width: 320px;
+}
+
+/* Prawa kolumna (zdjęcie i opis) */
+.prawa {
+    flex: 1 1 450px;
+    min-width: 300px;
+}
+
+/* Nagłówek modelu */
+h2 {
+    font-size: 2.4rem;
+    font-weight: 700;
     margin-bottom: 20px;
+    color: #ff2d2d;
+    text-shadow: 0 0 8px #ff2d2d;
 }
 
-/* Formularze */
+/* Informacje o samochodzie */
+.lewa > p, .lewa > strong {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+}
+
+.unavailable-msg {
+    color: #ff5555;
+    font-weight: 600;
+    margin: 20px 0;
+    font-size: 1.2rem;
+}
+
+/* Formularz */
 form {
-    margin-top: 15px;
+    background: #1c1c1c;
+    padding: 20px 25px;
+    border-radius: 8px;
+    box-shadow: 0 0 12px #ff2d2d88;
+    margin-top: 20px;
 }
 
+/* Label */
 label {
     display: block;
     margin-bottom: 6px;
     font-weight: 600;
 }
 
-input[type="number"], input[type="text"], select {
-    padding: 8px 10px;
-    border: 2px solid #6a8f4c;
-    border-radius: 4px;
-    background-color: #2b2b2b;
-    color: #e0e0e0;
+/* Inputy, checkbox */
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="number"] {
     width: 100%;
-    max-width: 150px;
-    box-sizing: border-box;
-    transition: border-color 0.3s ease;
+    padding: 10px 12px;
+    margin-bottom: 18px;
+    background-color: #222;
+    border: 2px solid #444;
+    border-radius: 5px;
+    color: #eee;
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-    input[type="number"]:focus, input[type="text"]:focus, select:focus {
-        border-color: #a3be8c;
+    /* Podświetlenie inputa na focus */
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="tel"]:focus,
+    input[type="number"]:focus {
+        border-color: #ff2d2d;
+        box-shadow: 0 0 8px #ff2d2d;
         outline: none;
     }
 
-/* Przycisk */
-button {
-    margin-top: 15px;
-    background-color: #6a8f4c;
+/* Checkbox */
+input[type="checkbox"] {
+    margin-right: 8px;
+    accent-color: #ff2d2d;
+}
+
+/* Całkowity koszt */
+form p strong {
+    font-size: 1.15rem;
+}
+
+/* Lista rabatów */
+form ul {
+    list-style-type: disc;
+    padding-left: 20px;
+    margin: 0 0 18px 0;
+    font-size: 0.95rem;
+    color: #bbb;
+}
+
+/* Przycisk wypożycz */
+button[type="submit"] {
+    background-color: #ff2d2d;
     border: none;
-    padding: 10px 20px;
-    color: #121212;
-    font-weight: bold;
+    color: white;
+    font-weight: 700;
+    font-size: 1.2rem;
+    padding: 12px 25px;
+    border-radius: 6px;
     cursor: pointer;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-}
-
-    button:hover {
-        background-color: #a3be8c;
-    }
-
-/* Informacje o samochodzie */
-.car-info {
-    margin-bottom: 20px;
-    line-height: 1.5;
-}
-
-    .car-info p {
-        margin: 6px 0;
-    }
-
-/* Komunikaty błędów */
-.validation-summary-errors {
-    color: #ff6b6b;
-    background-color: #2a1a1a;
-    padding: 12px 15px;
-    border-radius: 5px;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    width: 100%;
     margin-top: 10px;
 }
 
-/* Link do powrotu */
-a.back-link {
-    display: inline-block;
-    margin-top: 25px;
-    color: #a3be8c;
-    text-decoration: none;
-    font-weight: 600;
+    button[type="submit"]:hover {
+        background-color: #e02222;
+        box-shadow: 0 0 15px #ff2d2d;
+    }
+
+/* Historia wypożyczeń - tabela */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 30px;
+    background: #1c1c1c;
+    border-radius: 8px;
+    overflow: hidden;
 }
 
-    a.back-link:hover {
-        text-decoration: underline;
+th, td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #333;
+}
+
+th {
+    background-color: #222;
+    color: #ff2d2d;
+    font-weight: 700;
+}
+
+tr:hover {
+    background-color: #2b2b2b;
+}
+
+/* Link powrotu */
+.back-link {
+    display: inline-block;
+    margin-top: 30px;
+    color: #ff2d2d;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: color 0.3s ease;
+}
+
+    .back-link:hover {
+        color: #ff5555;
     }
+
+/* Zdjęcie auta */
+.car-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 0 20px #ff2d2daa;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin-left: 20px;
+}
+
+    .car-image:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 30px #ff2d2d;
+    }
+
+/* Opis samochodu */
+.prawa > p:first-child {
+    font-weight: 700;
+    font-size: 1.3rem;
+    margin-bottom: 8px;
+    color: #ff2d2d;
+    text-shadow: 0 0 8px #ff2d2d;
+}
+
+.prawa > p:not(:first-child) {
+    line-height: 1.5;
+    color: #ddd;
+    font-size: 1.1rem;
+    margin-bottom: 25px;
+}
+
+/* Responsywność na mniejsze ekrany */
+@media (max-width: 850px) {
+    .glowny {
+        flex-direction: column;
+        max-width: 95%;
+        margin: 30px auto;
+    }
+
+    .prawa {
+        margin-top: 30px;
+        margin-left: 0;
+    }
+
+    .car-image {
+        margin-left: 0;
+        max-height: 300px;
+        object-fit: cover;
+    }
+}

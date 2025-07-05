@@ -19,4 +19,53 @@ html {
 
 body {
   margin-bottom: 60px;
+
 }
+
+
+.glowny {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+    width: 100%;
+    margin-top: 20px;
+    align-items: center;
+}
+
+.lewa {
+    flex: 0 0 65%;
+    height: auto;
+}
+
+.prawa {
+    flex: 0 0 35%;
+    padding: 15px;
+    border-radius: 8px;
+    color: #e0e0e0;
+    box-sizing: border-box;
+    overflow-wrap: break-word;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+.top-bar {
+    height: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #000;
+}
+
+.nav-links a {
+    margin: 0 15px;
+    color: #99ff00;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 18px;
+    transition: color 0.3s;
+}
+
+    .nav-links a:hover {
+        color: #6fa36b;
+    }

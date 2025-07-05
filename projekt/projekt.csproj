@@ -1,20 +1,62 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <Compile Remove="wwwroot\Nowy folder\**" />
-    <Content Remove="wwwroot\Nowy folder\**" />
-    <EmbeddedResource Remove="wwwroot\Nowy folder\**" />
-    <None Remove="wwwroot\Nowy folder\**" />
-  </ItemGroup>
+	<ItemGroup>
+		<Compile Remove="Nowy folder1\**" />
+		<Compile Remove="Nowy folder\**" />
+		<Compile Remove="wwwroot\Nowy folder\**" />
+		<Content Remove="Nowy folder1\**" />
+		<Content Remove="Nowy folder\**" />
+		<Content Remove="wwwroot\Nowy folder\**" />
+		<EmbeddedResource Remove="Nowy folder1\**" />
+		<EmbeddedResource Remove="Nowy folder\**" />
+		<EmbeddedResource Remove="wwwroot\Nowy folder\**" />
+		<None Remove="Nowy folder1\**" />
+		<None Remove="Nowy folder\**" />
+		<None Remove="wwwroot\Nowy folder\**" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Content Remove="wwwroot\css\.editorconfig" />
-  </ItemGroup>
+	<ItemGroup>
+		<Content Remove="Views\Home\Historia.cshtml" />
+		<Content Remove="wwwroot\css\.editorconfig" />
+		<Content Remove="wwwroot\css\site-subpages - kopiować.css" />
+		<Content Remove="wwwroot\css\_ViewImports.cshtml" />
+		<Content Remove="wwwroot\zdjecia\488.webp" />
+		<Content Remove="wwwroot\zdjecia\911.jpg" />
+		<Content Remove="wwwroot\zdjecia\corvette.webp" />
+		<Content Remove="wwwroot\zdjecia\e63.webp" />
+		<Content Remove="wwwroot\zdjecia\gtr.jpg" />
+		<Content Remove="wwwroot\zdjecia\huracan.jpg" />
+		<Content Remove="wwwroot\zdjecia\lc500.webp" />
+		<Content Remove="wwwroot\zdjecia\logo.png" />
+		<Content Remove="wwwroot\zdjecia\m3.jpg" />
+		<Content Remove="wwwroot\zdjecia\mercedesamggt.webp" />
+		<Content Remove="wwwroot\zdjecia\r8.jpeg" />
+		<Content Remove="wwwroot\zdjecia\rs5.webp" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.6" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.6">
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.6" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.6">
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Areas\Admin\Views\Roles\" />
+	</ItemGroup>
 
 </Project>

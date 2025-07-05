@@ -1,9 +1,18 @@
-﻿namespace projekt.Models
+﻿using projekt.Models;
+
+public class Wypozyczenie
 {
-    public class Wypozyczenie
-    {
-        public int Dni { get; set; }
-        public decimal CenaCalkowita { get; set; }
-        public DateTime Data { get; set; }
-    }
+    public int Id { get; set; }
+
+    public int KlientId { get; set; }
+    public Klient Klient { get; set; }    // nawigacja do klienta
+
+    public int CarId { get; set; }
+    public Car Car { get; set; }          // nawigacja do auta — WAŻNE!
+
+    public DateTime DataOd { get; set; }
+    public DateTime DataDo { get; set; }
+
+    public int Dni => (DataDo - DataOd).Days;
+    public decimal CenaCalkowita { get; set; }
 }

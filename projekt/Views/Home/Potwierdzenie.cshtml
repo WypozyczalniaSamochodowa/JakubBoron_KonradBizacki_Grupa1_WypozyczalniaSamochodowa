@@ -1,12 +1,14 @@
 ﻿@model projekt.Models.Car
+
 @{
     Layout = "_Layout";
 }
 <link rel="stylesheet" href="~/css/site-subpages.css" />
+
 <h2>Wypożyczenie potwierdzone</h2>
 
 <p>Wypożyczyłeś samochód: <strong>@Model.Marka @Model.Model</strong></p>
 <p>Liczba dni wypożyczenia: <strong>@ViewBag.Dni</strong></p>
 <p>Całkowity koszt: <strong>@ViewBag.Cena zł</strong></p>
 
-<a asp-action="Index">Powrót do listy samochodów</a>
+<a asp-action="Index" class="btn btn-primary">Powrót do listy samochodów</a>

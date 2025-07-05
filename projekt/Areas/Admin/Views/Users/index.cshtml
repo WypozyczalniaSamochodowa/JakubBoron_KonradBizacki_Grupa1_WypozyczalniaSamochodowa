@@ -1,0 +1,23 @@
+﻿@model IEnumerable<Microsoft.AspNetCore.Identity.IdentityUser>
+
+<h1>Lista użytkowników</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Email</th>
+            <th>Akcje</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.Email</td>
+                <td>
+                    <!-- Możesz dodać linki do edycji, usuwania -->
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
