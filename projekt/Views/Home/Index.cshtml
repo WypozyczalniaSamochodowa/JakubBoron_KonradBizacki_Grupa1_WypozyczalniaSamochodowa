@@ -1,8 +1,12 @@
 ﻿@model List<projekt.Models.Car>
 @using projekt.Models
+@using Microsoft.AspNetCore.Identity
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 
 @{
     ViewData["Title"] = "ToFastToRent";
+     var user = HttpContextAccessor.HttpContext.User;
+    bool isAdmin = user.Identity.IsAuthenticated && user.IsInRole("Admin");
 }
 
 <style>
@@ -212,7 +216,6 @@
         <a href="#samochody">Samochody</a>
         <a href="#opinie">Opinie</a>
         <a href="#kontakt">Kontakt</a>
-        <a href="/Admin/Admin/Index">Panel Admina</a>
     </div>
 </div>
 
@@ -237,6 +240,16 @@
                 {
                     <div class="car-actions">
                         <a href="/Home/Szczegoly/@car.Id">Wypożycz</a>
+                    </div>
+                }
+                else if (isAdmin)
+                {
+                    var statusText = car.Status == StatusSamochodu.Wypozyczony ? "Wypożyczony" : "Serwis";
+                    var statusClass = car.Status == StatusSamochodu.Wypozyczony ? "status-wypozyczony" : "status-serwis";
+
+                    <div class="status-label @statusClass">@statusText</div>
+                    <div class="car-actions">
+                        <a href="/Home/Szczegoly/@car.Id">Szczegóły</a>
                     </div>
                 }
                 else

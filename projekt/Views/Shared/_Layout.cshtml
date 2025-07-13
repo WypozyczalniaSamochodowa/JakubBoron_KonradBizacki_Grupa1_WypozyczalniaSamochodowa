@@ -1,6 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+<!DOCTYPE html>
 <html lang="pl">
-   
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -13,23 +16,25 @@
     @await RenderSectionAsync("Styles", required: false)
 </head>
 <body style="background-color: #080803; color: #e0e0e0; font-family: Arial, sans-serif;">
-
     <div class="container pt-3">
 
-        <!-- Link do Panelu Admina i logowania -->
+        <!-- Góra strony: logowanie + link do panelu admina -->
         <div style="text-align: right; margin-bottom: 20px;">
-            <a href="/Admin/Admin/Index" style="
-                color: #f44336;
-                font-weight: bold;
-                text-decoration: none;
-                border: 2px solid #f44336;
-                padding: 6px 12px;
-                border-radius: 6px;
-                transition: background-color 0.3s, color 0.3s;
-                display: inline-block;
-                margin-right: 15px;">
-                🛠️ Panel Admina
-            </a>
+            @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+            {
+                <a href="/Admin/Admin/Index" style="
+                        color: #f44336;
+                        font-weight: bold;
+                        text-decoration: none;
+                        border: 2px solid #f44336;
+                        padding: 6px 12px;
+                        border-radius: 6px;
+                        transition: background-color 0.3s, color 0.3s;
+                        display: inline-block;
+                        margin-right: 15px;">
+                    🛠️ Panel Admina
+                </a>
+            }
 
             @await Html.PartialAsync("_LoginPartial")
         </div>

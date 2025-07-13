@@ -20,17 +20,29 @@ namespace projekt.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            // Konfiguracja relacji Wypozyczenie <-> Klient
             modelBuilder.Entity<Wypozyczenie>()
                 .HasOne(w => w.Klient)
-                .WithMany()
+                .WithMany(k => k.Wypozyczenia)
                 .HasForeignKey(w => w.KlientId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            // Konfiguracja relacji Wypozyczenie <-> Car
             modelBuilder.Entity<Wypozyczenie>()
                 .HasOne(w => w.Car)
                 .WithMany(c => c.Wypozyczenia)
                 .HasForeignKey(w => w.CarId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            // *** DODANE KONFIGURACJE DLA KLIENT ***
+
+            // Ustawienie klucza głównego i autoinkrementacji dla Klient.Id
+            modelBuilder.Entity<Klient>()
+                .HasKey(k => k.Id);
+
+            modelBuilder.Entity<Klient>()
+                .Property(k => k.Id)
+                .ValueGeneratedOnAdd();
         }
 
         public void Seed()
@@ -125,7 +137,7 @@ namespace projekt.Data
                     new Car
                     {
                         Marka = "Mercedes-AMG",
-                        Model = "GT Black Series",
+                        Model = "GT Black",
                         CenaZaDzien = 1600,
                         Status = StatusSamochodu.Dostepny,
                         Zdjecie = "merolblack.jpg",

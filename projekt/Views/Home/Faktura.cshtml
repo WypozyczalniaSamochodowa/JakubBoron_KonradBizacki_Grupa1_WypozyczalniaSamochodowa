@@ -1,0 +1,170 @@
+﻿@model projekt.Models.Wypozyczenie
+
+@{
+    Layout = null; // Faktura zazwyczaj bez layoutu, czysta strona do PDF
+    var numerFaktury = "FV-" + Model.Id.ToString("D5"); // np. FV-00001
+    var dataFaktury = DateTime.Now.ToString("dd.MM.yyyy");
+    var dataPlatnosci = Model.DataDo.AddDays(14).ToString("dd.MM.yyyy"); // np. termin płatności 14 dni od zakończenia wypożyczenia
+    var kontoBankowe = "12 3456 7890 1234 5678 9012 3456"; // losowy numer konta
+    var nazwaFirmy = "ToFastToRent Sp. z o.o.";
+    var adresFirmy = "ul. Neonowa 7, 00-123 Warszawa";
+    var nip = "123-456-78-90";
+}
+
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="utf-8" />
+    <title>Faktura @numerFaktury</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 12pt;
+            color: #000;
+            margin: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 5px;
+        }
+
+        .header, .footer {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+            .header .company-info {
+                float: left;
+                width: 50%;
+            }
+
+            .header .invoice-info {
+                float: right;
+                width: 50%;
+                text-align: right;
+            }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            border: 1px solid #000;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f0f0f0;
+        }
+
+        .totals {
+            text-align: right;
+        }
+
+        .signatures {
+            margin-top: 50px;
+        }
+
+        .signature-block {
+            display: inline-block;
+            width: 45%;
+            text-align: center;
+        }
+
+        .signature-line {
+            border-top: 1px solid #000;
+            margin-top: 60px;
+        }
+
+        .agreement {
+            font-size: 10pt;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div class="company-info">
+            <strong>@nazwaFirmy</strong><br />
+            @adresFirmy<br />
+            NIP: @nip<br />
+            Konto bankowe: @kontoBankowe
+        </div>
+        <div class="invoice-info">
+            <h2>Faktura VAT</h2>
+            <div>Nr faktury: <strong>@numerFaktury</strong></div>
+            <div>Data wystawienia: @dataFaktury</div>
+            <div>Data sprzedaży: @Model.DataOd.ToString("dd.MM.yyyy")</div>
+            <div>Termin płatności: @dataPlatnosci</div>
+        </div>
+        <div style="clear: both;"></div>
+    </div>
+
+    <h3>Sprzedawca:</h3>
+    <p>
+        @nazwaFirmy<br />
+        @adresFirmy<br />
+        NIP: @nip
+    </p>
+
+    <h3>Nabywca:</h3>
+    <p>
+        @Model.Klient.Imie @Model.Klient.Nazwisko<br />
+        Email: @Model.Klient.Email<br />
+        Telefon: @Model.Klient.Telefon
+    </p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Lp.</th>
+                <th>Nazwa usługi / towaru</th>
+                <th>Ilość dni</th>
+                <th>Cena za dzień (PLN)</th>
+                <th>Wartość (PLN)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Wypożyczenie samochodu: @Model.Car.Marka @Model.Car.Model</td>
+                <td>@( (Model.DataDo - Model.DataOd).Days )</td>
+                <td>@Model.Car.CenaZaDzien.ToString("F2")</td>
+                <td>@Model.CenaCalkowita.ToString("F2")</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p class="totals">
+        <strong>Razem do zapłaty: @Model.CenaCalkowita.ToString("F2") PLN</strong>
+    </p>
+
+    <div class="agreement">
+        <p>
+            Oświadczam, że zapoznałem(-am) się z warunkami wypożyczenia samochodu, regulaminem oraz polityką prywatności.<br />
+            Wyrażam zgodę na przetwarzanie moich danych osobowych w celu realizacji umowy wypożyczenia pojazdu.
+        </p>
+    </div>
+
+    <div class="signatures">
+        <div class="signature-block">
+            <div>........................................</div>
+            <div class="signature-line"></div>
+            <div>Podpis Sprzedawcy</div>
+        </div>
+
+        <div class="signature-block" style="float: right;">
+            <div>........................................</div>
+            <div class="signature-line"></div>
+            <div>Podpis Nabywcy</div>
+        </div>
+        <div style="clear: both;"></div>
+    </div>
+
+</body>
+</html>

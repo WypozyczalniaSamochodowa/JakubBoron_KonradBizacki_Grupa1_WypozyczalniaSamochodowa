@@ -312,16 +312,11 @@ namespace projekt.Migrations
                     b.Property<int>("KlientId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("KlientId1")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CarId");
 
                     b.HasIndex("KlientId");
-
-                    b.HasIndex("KlientId1");
 
                     b.ToTable("Wypozyczenia");
                 });
@@ -386,14 +381,10 @@ namespace projekt.Migrations
                         .IsRequired();
 
                     b.HasOne("projekt.Models.Klient", "Klient")
-                        .WithMany()
+                        .WithMany("Wypozyczenia")
                         .HasForeignKey("KlientId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.HasOne("projekt.Models.Klient", null)
-                        .WithMany("Wypozyczenia")
-                        .HasForeignKey("KlientId1");
 
                     b.Navigation("Car");
 

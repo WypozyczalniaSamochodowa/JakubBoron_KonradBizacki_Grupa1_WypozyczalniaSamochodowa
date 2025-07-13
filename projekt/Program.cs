@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using projekt.Data;
 using projekt.Models;
+using Rotativa.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +21,12 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options =>
 .AddRoles<IdentityRole>()
 .AddEntityFrameworkStores<AppDbContext>();
 
+// KONFIGURACJA: Upewnij się, że role są mapowane do claimów typu Role
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    options.ClaimsIdentity.RoleClaimType = System.Security.Claims.ClaimTypes.Role;
+});
+
 builder.Services.AddRazorPages();
 
 var app = builder.Build();
@@ -33,11 +40,12 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
-
 app.UseAuthentication();
 app.UseAuthorization();
+
+// Rotativa - konfiguracja
+RotativaConfiguration.Setup(app.Environment.WebRootPath, "Rotativa");
 
 app.MapControllerRoute(
     name: "areas",
@@ -57,7 +65,8 @@ using (var scope = app.Services.CreateScope())
     db.Database.Migrate();
     db.Seed();
 
-    
+    // Wywołaj asynchronicznie CreateAdminUser i poczekaj na zakończenie
+    await CreateAdminUser(services);
 }
 
 app.Run();

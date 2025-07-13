@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using projekt.Data;
 using projekt.Models;
+using Rotativa.AspNetCore;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace projekt.Controllers
 {
@@ -18,25 +21,42 @@ namespace projekt.Controllers
 
         public IActionResult Index()
         {
-            // Pobierz wszystkie auta bez filtrowania po statusie
             var auta = _context.Samochody.ToList();
-
             return View(auta);
         }
 
-        public IActionResult Szczegoly(int id)
+        public async Task<IActionResult> Szczegoly(int id)
         {
-            var auto = _context.Samochody
-                .Include(a => a.Wypozyczenia)
-                .FirstOrDefault(c => c.Id == id);
+            var car = await _context.Samochody
+                .Include(c => c.Wypozyczenia)
+                .FirstOrDefaultAsync(c => c.Id == id);
 
-            if (auto == null)
+            if (car == null)
+            {
                 return NotFound();
+            }
 
-            return View(auto);
+            // Debug: sprawdź autentykację i rolę
+            var isAdmin = User.IsInRole("Admin");
+            var isAuthenticated = User.Identity.IsAuthenticated;
+
+            ViewBag.IsAdmin = isAdmin;
+            ViewBag.IsAuthenticated = isAuthenticated;
+
+            // Pozwól administratorowi oglądać nawet niedostępne auta
+            if (car.Status != StatusSamochodu.Dostepny)
+            {
+                if (!isAuthenticated || !isAdmin)
+                {
+                    return Forbid();
+                }
+            }
+
+            return View(car);
         }
 
         [HttpPost]
+        [Authorize]
         public IActionResult PotwierdzWypozyczenie(
             int id, int dni,
             string imie, string nazwisko,
@@ -65,7 +85,6 @@ namespace projekt.Controllers
                 return View("Szczegoly", auto);
             }
 
-            // Sprawdź, czy klient już istnieje (po emailu)
             var klient = _context.Klienci.FirstOrDefault(k => k.Email == email);
             if (klient == null)
             {
@@ -77,12 +96,11 @@ namespace projekt.Controllers
                     Telefon = telefon
                 };
                 _context.Klienci.Add(klient);
-                _context.SaveChanges(); // zapisujemy klienta, by mieć jego Id
+                _context.SaveChanges();
             }
 
             decimal cena = auto.CenaZaDzien * dni;
 
-            // Rabaty
             if (dni >= 30)
                 cena *= 0.85m;
             else if (dni >= 7)
@@ -98,16 +116,30 @@ namespace projekt.Controllers
             };
 
             _context.Wypozyczenia.Add(wypozyczenie);
-
-            // Zmień status samochodu na wypożyczony
             auto.Status = StatusSamochodu.Wypozyczony;
-
             _context.SaveChanges();
 
             ViewBag.Cena = cena;
             ViewBag.Dni = dni;
+            ViewBag.WypozyczenieId = wypozyczenie.Id;
 
             return View("Potwierdzenie", auto);
+        }
+
+        public IActionResult GenerujFakture(int wypozyczenieId)
+        {
+            var wypozyczenie = _context.Wypozyczenia
+                .Include(w => w.Car)
+                .Include(w => w.Klient)
+                .FirstOrDefault(w => w.Id == wypozyczenieId);
+
+            if (wypozyczenie == null)
+                return NotFound();
+
+            return new ViewAsPdf("Faktura", wypozyczenie)
+            {
+                FileName = $"Faktura_{wypozyczenie.Id}.pdf"
+            };
         }
     }
 }

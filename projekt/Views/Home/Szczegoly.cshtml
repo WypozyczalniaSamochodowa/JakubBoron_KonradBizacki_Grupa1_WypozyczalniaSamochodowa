@@ -1,7 +1,14 @@
 ﻿@model projekt.Models.Car
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
 @{
     Layout = "_Layout";
+    bool isAdmin = SignInManager.IsSignedIn(User) && User.IsInRole("Admin");
+    bool isLogged = SignInManager.IsSignedIn(User);
 }
+
 <link rel="stylesheet" href="~/css/site-subpages.css" />
 
 <h2>@Model.Marka @Model.Model</h2>
@@ -18,46 +25,57 @@
 
         @if (Model.Status == projekt.Models.StatusSamochodu.Dostepny)
         {
-            <form method="post" asp-action="PotwierdzWypozyczenie" id="wypozyczForm">
-                <input type="hidden" name="id" value="@Model.Id" />
+            if (isLogged)
+            {
+                <form method="post" asp-action="PotwierdzWypozyczenie" id="wypozyczForm">
+                    <input type="hidden" name="id" value="@Model.Id" />
 
-                <label for="imie">Imię:</label>
-                <input type="text" id="imie" name="imie" required />
+                    <label for="imie">Imię:</label>
+                    <input type="text" id="imie" name="imie" required />
 
-                <label for="nazwisko">Nazwisko:</label>
-                <input type="text" id="nazwisko" name="nazwisko" required />
+                    <label for="nazwisko">Nazwisko:</label>
+                    <input type="text" id="nazwisko" name="nazwisko" required />
 
-                <label for="email">E-mail:</label>
-                <input type="email" id="email" name="email" required />
+                    <label for="email">E-mail:</label>
+                    <input type="email" id="email" name="email" required />
 
-                <label for="telefon">Numer telefonu:</label>
-                <input type="tel" id="telefon" name="telefon" required pattern="[0-9]{9}" title="Wprowadź 9-cyfrowy numer" />
+                    <label for="telefon">Numer telefonu:</label>
+                    <input type="tel" id="telefon" name="telefon" required pattern="[0-9]{9}" title="Wprowadź 9-cyfrowy numer" />
 
-                <label for="dni">Dni wypożyczenia:</label>
-                <input type="number" id="dni" name="dni" min="1" value="1" required />
+                    <label for="dni">Dni wypożyczenia:</label>
+                    <input type="number" id="dni" name="dni" min="1" value="1" required />
 
-                <label>
-                    <input type="checkbox" id="wiek18" name="wiek18" />
-                    Mam ukończone 18 lat
-                </label>
+                    <label>
+                        <input type="checkbox" id="wiek18" name="wiek18" />
+                        Mam ukończone 18 lat
+                    </label>
 
-                <p><strong>Całkowity koszt:</strong> <span id="calkowitaCena">@Model.CenaZaDzien</span> zł</p>
+                    <p><strong>Całkowity koszt:</strong> <span id="calkowitaCena">@Model.CenaZaDzien</span> zł</p>
 
-                <p><em>Rabaty:</em></p>
-                <ul>
-                    <li>7 dni lub więcej — 10% zniżki</li>
-                    <li>30 dni lub więcej — 15% zniżki</li>
-                </ul>
+                    <p><em>Rabaty:</em></p>
+                    <ul>
+                        <li>7 dni lub więcej — 10% zniżki</li>
+                        <li>30 dni lub więcej — 15% zniżki</li>
+                    </ul>
 
-                <button type="submit">Wypożycz</button>
-            </form>
+                    <button type="submit">Wypożycz</button>
+                </form>
+            }
+            else
+            {
+                <p style="color: orange;"><strong>Zaloguj się</strong>, aby wypożyczyć ten samochód.</p>
+            }
+        }
+        else if (isAdmin)
+        {
+            <p style="color: orange;"><strong>Uwaga:</strong> Samochód jest aktualnie wypożyczony. Jako administrator masz dostęp do jego szczegółów.</p>
         }
         else
         {
             <p class="unavailable-msg">Samochód jest niedostępny.</p>
         }
 
-        @if (Model.Wypozyczenia != null && Model.Wypozyczenia.Count > 0)
+        @if (Model.Wypozyczenia != null && Model.Wypozyczenia.Any())
         {
             <h3>Historia wypożyczeń tego samochodu</h3>
             <table border="1" cellpadding="5" cellspacing="0">
@@ -110,28 +128,35 @@
 </div>
 
 <script>
-    (function(){
-        const cenaZaDzien = @Model.CenaZaDzien;
+    (function() {
+        // Parsujemy cenę za dzień jako liczbe (z Razor wyciągamy wartość)
+        const cenaZaDzien = parseFloat('@Model.CenaZaDzien'.replace(',', '.'));
+
         const dniInput = document.getElementById('dni');
         const calkowitaCenaSpan = document.getElementById('calkowitaCena');
         const form = document.getElementById('wypozyczForm');
 
+        function aktualizujCene() {
+            let dni = parseInt(dniInput.value);
+            if (isNaN(dni) || dni < 1) dni = 1;
+
+            let cena = cenaZaDzien * dni;
+
+            if (dni >= 30) {
+                cena *= 0.85; // 15% rabatu
+            } else if (dni >= 7) {
+                cena *= 0.90; // 10% rabatu
+            }
+
+            calkowitaCenaSpan.textContent = cena.toFixed(2);
+        }
+
         if (dniInput && calkowitaCenaSpan) {
-            dniInput.addEventListener('input', () => {
-                let dni = parseInt(dniInput.value);
-                if (isNaN(dni) || dni < 1) dni = 1;
+            // Zaktualizuj od razu po załadowaniu
+            aktualizujCene();
 
-                let cena = cenaZaDzien * dni;
-
-                if (dni >= 30) {
-                    cena *= 0.85;
-                } else if (dni >= 7) {
-                    cena *= 0.90;
-                }
-
-                cena = cena.toFixed(2);
-                calkowitaCenaSpan.textContent = cena;
-            });
+            // Odświeżaj cenę na bieżąco, gdy zmienia się input
+            dniInput.addEventListener('input', aktualizujCene);
         }
 
         if (form) {

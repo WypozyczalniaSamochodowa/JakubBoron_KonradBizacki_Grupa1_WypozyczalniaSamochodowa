@@ -11,4 +11,8 @@
 <p>Liczba dni wypożyczenia: <strong>@ViewBag.Dni</strong></p>
 <p>Całkowity koszt: <strong>@ViewBag.Cena zł</strong></p>
 
+<a asp-action="GenerujFakture" asp-route-wypozyczenieId="@ViewBag.WypozyczenieId" class="btn btn-success">
+    Pobierz fakturę (PDF)
+</a>
+
 <a asp-action="Index" class="btn btn-primary">Powrót do listy samochodów</a>
