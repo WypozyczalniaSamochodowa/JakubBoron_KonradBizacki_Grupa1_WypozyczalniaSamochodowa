@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using projekt.Models;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace projekt.Data
 {
@@ -22,15 +21,15 @@ namespace projekt.Data
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Wypozyczenie>()
-                .HasOne(w => w.Car)
-                .WithMany(c => c.Wypozyczenia)
-                .HasForeignKey(w => w.CarId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<Wypozyczenie>()
                 .HasOne(w => w.Klient)
                 .WithMany()
                 .HasForeignKey(w => w.KlientId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Wypozyczenie>()
+                .HasOne(w => w.Car)
+                .WithMany(c => c.Wypozyczenia)
+                .HasForeignKey(w => w.CarId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
 
@@ -44,7 +43,7 @@ namespace projekt.Data
                         Marka = "Ferrari",
                         Model = "488 GTB",
                         CenaZaDzien = 1500,
-                        Dostepny = true,
+                        Status = StatusSamochodu.Dostepny,
                         Zdjecie = "ferrari.jpg",
                         Silnik = "3.9L V8 Twin-Turbo",
                         Spalanie = "11.4L/100km",
@@ -58,7 +57,7 @@ namespace projekt.Data
                         Marka = "Lamborghini",
                         Model = "Huracán Evo",
                         CenaZaDzien = 1700,
-                        Dostepny = true,
+                        Status = StatusSamochodu.Dostepny,
                         Zdjecie = "huracan.jpg",
                         Silnik = "5.2L V10",
                         Spalanie = "13.7L/100km",
@@ -72,7 +71,7 @@ namespace projekt.Data
                         Marka = "Porsche",
                         Model = "911 Turbo S",
                         CenaZaDzien = 1400,
-                        Dostepny = true,
+                        Status = StatusSamochodu.Dostepny,
                         Zdjecie = "porsche.jpg",
                         Silnik = "3.8L Twin-Turbo",
                         Spalanie = "11.0L/100km",
@@ -86,7 +85,7 @@ namespace projekt.Data
                         Marka = "Aston Martin",
                         Model = "DBS Superleggera",
                         CenaZaDzien = 1600,
-                        Dostepny = true,
+                        Status = StatusSamochodu.Dostepny,
                         Zdjecie = "aston.jpg",
                         Silnik = "5.2L V12 Twin-Turbo",
                         Spalanie = "12.0L/100km",
@@ -100,7 +99,7 @@ namespace projekt.Data
                         Marka = "McLaren",
                         Model = "720S",
                         CenaZaDzien = 1800,
-                        Dostepny = true,
+                        Status = StatusSamochodu.Dostepny,
                         Zdjecie = "mclaren.jpg",
                         Silnik = "4.0L V8 Twin-Turbo",
                         Spalanie = "12.2L/100km",
@@ -114,7 +113,7 @@ namespace projekt.Data
                         Marka = "Bugatti",
                         Model = "Chiron",
                         CenaZaDzien = 3500,
-                        Dostepny = true,
+                        Status = StatusSamochodu.Dostepny,
                         Zdjecie = "chiron.jpg",
                         Silnik = "8.0L W16 Quad-Turbo",
                         Spalanie = "22.0L/100km",
@@ -128,7 +127,7 @@ namespace projekt.Data
                         Marka = "Mercedes-AMG",
                         Model = "GT Black Series",
                         CenaZaDzien = 1600,
-                        Dostepny = true,
+                        Status = StatusSamochodu.Dostepny,
                         Zdjecie = "merolblack.jpg",
                         Silnik = "4.0L V8 Biturbo",
                         Spalanie = "13.0L/100km",
@@ -142,7 +141,7 @@ namespace projekt.Data
                         Marka = "Bentley",
                         Model = "Continental GT Speed",
                         CenaZaDzien = 1900,
-                        Dostepny = true,
+                        Status = StatusSamochodu.Dostepny,
                         Zdjecie = "bentley.jpg",
                         Silnik = "6.0L W12 Twin-Turbo",
                         Spalanie = "14.0L/100km",
@@ -156,7 +155,7 @@ namespace projekt.Data
                         Marka = "Rolls-Royce",
                         Model = "Wraith",
                         CenaZaDzien = 2500,
-                        Dostepny = true,
+                        Status = StatusSamochodu.Dostepny,
                         Zdjecie = "rolls.jpg",
                         Silnik = "6.6L V12 Twin-Turbo",
                         Spalanie = "15.0L/100km",

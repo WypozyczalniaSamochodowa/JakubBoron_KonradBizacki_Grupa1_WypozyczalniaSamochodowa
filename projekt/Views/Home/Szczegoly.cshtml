@@ -3,145 +3,154 @@
     Layout = "_Layout";
 }
 <link rel="stylesheet" href="~/css/site-subpages.css" />
+
 <h2>@Model.Marka @Model.Model</h2>
 
 <div class="glowny">
     <div class="lewa">
+        <p><strong>Cena za dzień:</strong> @Model.CenaZaDzien zł</p>
+        <p><strong>Status:</strong> @(Model.Status == projekt.Models.StatusSamochodu.Dostepny ? "Dostępny" : "Wypożyczony")</p>
+        <p><strong>Silnik:</strong> @Model.Silnik</p>
+        <p><strong>Spalanie:</strong> @Model.Spalanie</p>
+        <p><strong>Moc:</strong> @Model.MocKM KM</p>
+        <p><strong>Przyspieszenie 0-100 km/h:</strong> @Model.PrzyspieszenieSek s</p>
+        <p><strong>Napęd:</strong> @Model.Naped</p>
 
-
-<p><strong>Cena za dzień:</strong> @Model.CenaZaDzien zł</p>
-<p><strong>Status:</strong> @(Model.Dostepny ? "Dostępny" : "Wypożyczony")</p>
-<p><strong>Silnik:</strong> @Model.Silnik</p>
-<p><strong>Spalanie:</strong> @Model.Spalanie</p>
-<p><strong>Moc:</strong> @Model.MocKM KM</p>
-<p><strong>Przyspieszenie 0-100 km/h:</strong> @Model.PrzyspieszenieSek s</p>
-<p><strong>Napęd:</strong> @Model.Naped</p>
-
-@if (Model.Dostepny)
-{
-    <form method="post" asp-action="PotwierdzWypozyczenie" id="wypozyczForm">
-    <input type="hidden" name="id" value="@Model.Id" />
-
-    <label for="imie">Imię:</label>
-    <input type="text" id="imie" name="imie" required />
-
-    <label for="nazwisko">Nazwisko:</label>
-    <input type="text" id="nazwisko" name="nazwisko" required />
-
-    <label for="email">E-mail:</label>
-    <input type="email" id="email" name="email" required />
-
-    <label for="telefon">Numer telefonu:</label>
-    <input type="tel" id="telefon" name="telefon" required pattern="[0-9]{9}" title="Wprowadź 9-cyfrowy numer" />
-
-    <label for="dni">Dni wypożyczenia:</label>
-    <input type="number" id="dni" name="dni" min="1" value="1" required />
-
-    <label>
-        <input type="checkbox" id="wiek18" name="wiek18" />
-        Mam ukończone 18 lat
-    </label>
-
-    <p><strong>Całkowity koszt:</strong> <span id="calkowitaCena">@Model.CenaZaDzien</span> zł</p>
-
-    <p><em>Rabaty:</em></p>
-    <ul>
-        <li>7 dni lub więcej — 10% zniżki</li>
-        <li>30 dni lub więcej — 15% zniżki</li>
-    </ul>
-
-    <button type="submit">Wypożycz</button>
-</form>
-
-}
-else
-{
-    <p class="unavailable-msg">Samochód jest niedostępny.</p>
-}
-
-@if (Model.Wypozyczenia != null && Model.Wypozyczenia.Count > 0)
-{
-    <h3>Historia wypożyczeń tego samochodu</h3>
-    <table border="1" cellpadding="5">
-        <tr>
-            <th>Data wypożyczenia</th>
-            <th>Liczba dni</th>
-            <th>Koszt całkowity</th>
-        </tr>
-       @foreach (var wyp in Model.Wypozyczenia)
-{
-    <tr>
-        <td>@wyp.DataOd.ToString("yyyy-MM-dd")</td>
-        <td>@wyp.Dni</td>
-        <td>@wyp.CenaCalkowita zł</td>
-    </tr>
-}
-    </table>
-}
-
-@if (!ViewData.ModelState.IsValid)
-{
-    <div style="color:red;">
-        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+        @if (Model.Status == projekt.Models.StatusSamochodu.Dostepny)
         {
-            <p>@error.ErrorMessage</p>
+            <form method="post" asp-action="PotwierdzWypozyczenie" id="wypozyczForm">
+                <input type="hidden" name="id" value="@Model.Id" />
+
+                <label for="imie">Imię:</label>
+                <input type="text" id="imie" name="imie" required />
+
+                <label for="nazwisko">Nazwisko:</label>
+                <input type="text" id="nazwisko" name="nazwisko" required />
+
+                <label for="email">E-mail:</label>
+                <input type="email" id="email" name="email" required />
+
+                <label for="telefon">Numer telefonu:</label>
+                <input type="tel" id="telefon" name="telefon" required pattern="[0-9]{9}" title="Wprowadź 9-cyfrowy numer" />
+
+                <label for="dni">Dni wypożyczenia:</label>
+                <input type="number" id="dni" name="dni" min="1" value="1" required />
+
+                <label>
+                    <input type="checkbox" id="wiek18" name="wiek18" />
+                    Mam ukończone 18 lat
+                </label>
+
+                <p><strong>Całkowity koszt:</strong> <span id="calkowitaCena">@Model.CenaZaDzien</span> zł</p>
+
+                <p><em>Rabaty:</em></p>
+                <ul>
+                    <li>7 dni lub więcej — 10% zniżki</li>
+                    <li>30 dni lub więcej — 15% zniżki</li>
+                </ul>
+
+                <button type="submit">Wypożycz</button>
+            </form>
+        }
+        else
+        {
+            <p class="unavailable-msg">Samochód jest niedostępny.</p>
         }
 
-    </div>
-}
+        @if (Model.Wypozyczenia != null && Model.Wypozyczenia.Count > 0)
+        {
+            <h3>Historia wypożyczeń tego samochodu</h3>
+            <table border="1" cellpadding="5" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Data wypożyczenia</th>
+                        <th>Liczba dni</th>
+                        <th>Koszt całkowity</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var wyp in Model.Wypozyczenia)
+                    {
+                        <tr>
+                            <td>@wyp.DataOd.ToString("yyyy-MM-dd")</td>
+                            <td>@wyp.Dni</td>
+                            <td>@wyp.CenaCalkowita zł</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <div style="color:red;">
+                @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    <p>@error.ErrorMessage</p>
+                }
+            </div>
+        }
 
         <a href="/" class="back-link">← Powrót na stronę główną</a>
     </div>
+
     <div class="prawa">
-    <p><strong>O samochodzie:</strong></p> 
-    <p>@Model.Opis</p>
+        <p><strong>O samochodzie:</strong></p>
+        <p>@Model.Opis</p>
 
-    @if (!string.IsNullOrEmpty(Model.Zdjecie))
-    {
-        <img src="~/zdjecia/@Model.Zdjecie" alt="@Model.Marka @Model.Model" class="car-image" />
-    }
-    else
-    {
-        <p><em>Brak zdjęcia dla tego samochodu.</em></p>
-    }
+        @if (!string.IsNullOrEmpty(Model.Zdjecie))
+        {
+            <img src="~/zdjecia/@Model.Zdjecie" alt="@Model.Marka @Model.Model" class="car-image" />
+        }
+        else
+        {
+            <p><em>Brak zdjęcia dla tego samochodu.</em></p>
+        }
+    </div>
 </div>
-</div>
+
 <script>
-    const cenaZaDzien = @Model.CenaZaDzien;
-    const dniInput = document.getElementById('dni');
-    const calkowitaCenaSpan = document.getElementById('calkowitaCena');
-    const form = document.getElementById('wypozyczForm');
+    (function(){
+        const cenaZaDzien = @Model.CenaZaDzien;
+        const dniInput = document.getElementById('dni');
+        const calkowitaCenaSpan = document.getElementById('calkowitaCena');
+        const form = document.getElementById('wypozyczForm');
 
-    dniInput.addEventListener('input', () => {
-        let dni = parseInt(dniInput.value);
-        if (isNaN(dni) || dni < 1) dni = 1;
+        if (dniInput && calkowitaCenaSpan) {
+            dniInput.addEventListener('input', () => {
+                let dni = parseInt(dniInput.value);
+                if (isNaN(dni) || dni < 1) dni = 1;
 
-        let cena = cenaZaDzien * dni;
+                let cena = cenaZaDzien * dni;
 
-        if (dni >= 30) {
-            cena *= 0.85;
-        } else if (dni >= 7) {
-            cena *= 0.90;
+                if (dni >= 30) {
+                    cena *= 0.85;
+                } else if (dni >= 7) {
+                    cena *= 0.90;
+                }
+
+                cena = cena.toFixed(2);
+                calkowitaCenaSpan.textContent = cena;
+            });
         }
 
-        cena = cena.toFixed(2);
-        calkowitaCenaSpan.textContent = cena;
-    });
+        if (form) {
+            form.addEventListener('submit', function(e) {
+                const dni = parseInt(dniInput.value);
+                const cena = calkowitaCenaSpan.textContent;
+                const wiek18 = document.getElementById('wiek18');
 
-    form.addEventListener('submit', function(e) {
-        const dni = parseInt(dniInput.value);
-        const cena = calkowitaCenaSpan.textContent;
-        const wiek18 = document.getElementById('wiek18');
+                if (!wiek18.checked) {
+                    alert("Aby wypożyczyć samochód, musisz mieć ukończone 18 lat.");
+                    e.preventDefault();
+                    return;
+                }
 
-        if (!wiek18.checked) {
-            alert("Aby wypożyczyć samochód, musisz mieć ukończone 18 lat.");
-            e.preventDefault();
-            return;
+                const potwierdzenie = confirm(`Czy jesteś pewien, że chcesz wypożyczyć ten samochód na ${dni} dni za kwotę ${cena} zł?`);
+                if (!potwierdzenie) {
+                    e.preventDefault();
+                }
+            });
         }
-
-        const potwierdzenie = confirm(`Czy jesteś pewien, że chcesz wypożyczyć ten samochód na ${dni} dni za kwotę ${cena} zł?`);
-        if (!potwierdzenie) {
-            e.preventDefault();
-        }
-    });
+    })();
 </script>

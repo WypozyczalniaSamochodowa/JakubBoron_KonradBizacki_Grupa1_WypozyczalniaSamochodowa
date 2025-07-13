@@ -17,8 +17,8 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options =>
 {
     options.SignIn.RequireConfirmedAccount = false;
 })
-    .AddRoles<IdentityRole>()
-    .AddEntityFrameworkStores<AppDbContext>();
+.AddRoles<IdentityRole>()
+.AddEntityFrameworkStores<AppDbContext>();
 
 builder.Services.AddRazorPages();
 
@@ -39,17 +39,14 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-// Routing area (dla /Admin)
 app.MapControllerRoute(
     name: "areas",
-    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+    pattern: "{area:exists}/{controller=Admin}/{action=Index}/{id?}");
 
-// Routing domyślny
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-// Endpoint Identity (np. /Identity/Account/Login)
 app.MapRazorPages();
 
 // Inicjalizacja bazy danych i dodanie admina
@@ -60,28 +57,18 @@ using (var scope = app.Services.CreateScope())
     db.Database.Migrate();
     db.Seed();
 
-    // Ustaw wszystkie samochody jako dostępne
-    var allCars = db.Samochody.ToList();
-    foreach (var car in allCars)
-    {
-        car.Dostepny = true;
-    }
-    db.SaveChanges();
-
-    // Wywołaj async metodę, ale synchronicznie
-    CreateAdminUser(services).GetAwaiter().GetResult();
+    
 }
 
 app.Run();
 
-// Asynchroniczna metoda do utworzenia admina
 async Task CreateAdminUser(IServiceProvider services)
 {
     var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
 
     string adminEmail = "admin@admin.com";
-    string adminPassword = "Admin123!";
+    string adminPassword = "admin";
     string adminRole = "Admin";
 
     if (!await roleManager.RoleExistsAsync(adminRole))

@@ -1,4 +1,5 @@
 ﻿@model List<projekt.Models.Car>
+@using projekt.Models
 
 @{
     ViewData["Title"] = "ToFastToRent";
@@ -72,6 +73,7 @@
         border-radius: 10px;
         padding: 10px;
         box-shadow: 0 0 10px #f44336aa;
+        position: relative;
         transition: transform 0.5s ease;
     }
 
@@ -110,6 +112,32 @@
             background-color: #f44336;
             color: black;
         }
+
+    /* Neonowy napis dla statusu */
+    .status-label {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        padding: 5px 12px;
+        font-weight: bold;
+        font-size: 1rem;
+        border-radius: 8px;
+        text-transform: uppercase;
+        text-align: center;
+        color: #f44336;
+        text-shadow: 0 0 5px #f44336, 0 0 10px #f44336, 0 0 20px #f44336, 0 0 40px #f44336;
+        background-color: rgba(0, 0, 0, 0.6);
+    }
+
+    .status-wypozyczony {
+        color: #00ffff;
+        text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 40px #00ffff;
+    }
+
+    .status-serwis {
+        color: #ff00ff;
+        text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 40px #ff00ff;
+    }
 
     .slider-buttons {
         text-align: center;
@@ -201,22 +229,26 @@
                 <div class="car-name">@car.Marka @car.Model</div>
                 <div class="car-info">
                     <p><strong>Cena:</strong> @car.CenaZaDzien zł</p>
-                    <p><strong>Status:</strong> @(car.Dostepny ? "Dostępny" : "Wypożyczony")</p>
-                </div>
-                <div class="car-extra-info">
                     <p><strong>Silnik:</strong> @car.Silnik</p>
                     <p><strong>Moc:</strong> @car.MocKM KM</p>
                 </div>
-                <div class="car-actions">
-                    @if (car.Dostepny)
-                    {
+
+                @if (car.Status == StatusSamochodu.Dostepny)
+                {
+                    <div class="car-actions">
                         <a href="/Home/Szczegoly/@car.Id">Wypożycz</a>
-                    }
-                    else
-                    {
+                    </div>
+                }
+                else
+                {
+                    var statusText = car.Status == StatusSamochodu.Wypozyczony ? "Wypożyczony" : "Serwis";
+                    var statusClass = car.Status == StatusSamochodu.Wypozyczony ? "status-wypozyczony" : "status-serwis";
+
+                    <div class="status-label @statusClass">@statusText</div>
+                    <div class="car-actions">
                         <a style="opacity: 0.5; pointer-events: none;">Niedostępny</a>
-                    }
-                </div>
+                    </div>
+                }
             </div>
         }
     </div>
@@ -246,7 +278,7 @@
 
 <div class="mapa">
     <h3>Lokalizacje naszych samochodów</h3>
-    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2443.0603212109864!2d21.012228!3d52.229675!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNTLCsDEzJzQ2LjgiTiAyMcKwMDAnNDQuMCJF!5e0!3m2!1spl!2spl!4v1611111111111"></iframe>
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2443.0603212109864!2d21.012228!3d52.229675!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNTLCsDEzJzQ2LjgiTiAyMcKwMDAnNDQuMCJF!5e0!3m2!1spl!2spl!4v1611111111111" allowfullscreen="" loading="lazy"></iframe>
 </div>
 
 <script>

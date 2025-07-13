@@ -6,7 +6,7 @@ namespace projekt.Models
 {
     public class Klient
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         [Required]
         public string Imie { get; set; }

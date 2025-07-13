@@ -1,0 +1,20 @@
+﻿@model projekt.Models.Car
+@using Microsoft.AspNetCore.Mvc.Rendering
+
+@{
+    ViewData["Title"] = "Edytuj status auta";
+}
+
+<h2>Edytuj status auta: @Model.Marka @Model.Model</h2>
+
+<form asp-action="EditStatus" method="post">
+    <input type="hidden" asp-for="Id" />
+    <div>
+        <label>Status:</label>
+        <select asp-for="Status" asp-items="@(new SelectList(ViewBag.Statusy, "Value", "Text", ((int)Model.Status).ToString()))">
+            <option value="">-- wybierz status --</option>
+        </select>
+    </div>
+    <button type="submit">Zapisz</button>
+    <a href="/Admin/Admin/Index">Anuluj</a>
+</form>

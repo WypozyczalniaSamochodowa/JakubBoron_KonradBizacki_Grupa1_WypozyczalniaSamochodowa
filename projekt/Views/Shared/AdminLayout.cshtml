@@ -1,0 +1,124 @@
+﻿<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewData["Title"] - Panel Admina</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/projekt.styles.css" asp-append-version="true" />
+
+    <style>
+        body {
+            background-color: #000000;
+            color: #e0e0e0;
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+        }
+
+        .header-links {
+            text-align: right;
+            margin-bottom: 20px;
+        }
+
+        a.btn, button.btn {
+            border-radius: 6px;
+            font-weight: 600;
+            margin-left: 8px;
+            font-size: 0.85rem;
+        }
+
+        .btn-logout {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .btn-home {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        /* Neonowa czerwona tabela */
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            border: 2px solid #ff073a;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #ff073a, 0 0 20px #ff073a, 0 0 30px #ff073a;
+            background-color: #1a1a1a;
+            color: #ff073a;
+            font-size: 0.85rem;
+        }
+
+        th, td {
+            padding: 6px 10px;
+            text-align: left;
+            border-bottom: 1px solid #33000a;
+            vertical-align: middle;
+        }
+
+        th {
+            font-weight: 700;
+        }
+
+        tbody tr:hover {
+            background-color: #33000a;
+        }
+
+        /* Przyciski statusów - małe i zwarte */
+        .btn-status {
+            min-width: 80px;
+            margin-right: 5px;
+            margin-bottom: 3px;
+            font-size: 0.75rem;
+            padding: 4px 6px;
+        }
+
+        .btn-dostepny {
+            background-color: #28a745;
+            color: white;
+            box-shadow: 0 0 6px #28a745;
+        }
+
+        .btn-niedostepny {
+            background-color: #007bff;
+            color: white;
+            box-shadow: 0 0 6px #007bff;
+        }
+
+        .btn-serwis {
+            background-color: #ffc107;
+            color: black;
+            box-shadow: 0 0 6px #ffc107;
+        }
+
+        /* Kontener na guziki u góry */
+        .top-buttons {
+            margin-bottom: 30px;
+            text-align: right;
+        }
+    </style>
+
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+<body>
+    <div class="container pt-3">
+        <div class="header-links">
+            <a href="~/" class="btn btn-home">🏠 Strona główna</a>
+            <a href="/Account/Logout" class="btn btn-logout">🚪 Wyloguj się</a>
+        </div>
+
+        <main role="main" class="glowny">
+            @RenderBody()
+        </main>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

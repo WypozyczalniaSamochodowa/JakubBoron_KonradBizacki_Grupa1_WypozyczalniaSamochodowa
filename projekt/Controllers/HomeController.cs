@@ -18,9 +18,10 @@ namespace projekt.Controllers
 
         public IActionResult Index()
         {
+            // Pobierz wszystkie auta bez filtrowania po statusie
             var auta = _context.Samochody.ToList();
-            var dostepne = auta.Where(c => c.Dostepny).ToList();
-            return View(dostepne);
+
+            return View(auta);
         }
 
         public IActionResult Szczegoly(int id)
@@ -56,15 +57,15 @@ namespace projekt.Controllers
             }
 
             if (!ModelState.IsValid)
+                return View("Szczegoly", auto);
+
+            if (auto.Status != StatusSamochodu.Dostepny)
             {
+                ModelState.AddModelError("", "Samochód jest obecnie niedostępny.");
                 return View("Szczegoly", auto);
             }
 
-            if (!auto.Dostepny)
-            {
-                return RedirectToAction("Index");
-            }
-
+            // Sprawdź, czy klient już istnieje (po emailu)
             var klient = _context.Klienci.FirstOrDefault(k => k.Email == email);
             if (klient == null)
             {
@@ -76,10 +77,12 @@ namespace projekt.Controllers
                     Telefon = telefon
                 };
                 _context.Klienci.Add(klient);
-                _context.SaveChanges();
+                _context.SaveChanges(); // zapisujemy klienta, by mieć jego Id
             }
 
             decimal cena = auto.CenaZaDzien * dni;
+
+            // Rabaty
             if (dni >= 30)
                 cena *= 0.85m;
             else if (dni >= 7)
@@ -92,11 +95,12 @@ namespace projekt.Controllers
                 DataOd = DateTime.Now,
                 DataDo = DateTime.Now.AddDays(dni),
                 CenaCalkowita = cena
-                // Dni jest właściwością tylko do odczytu – NIE ustawiamy ręcznie
             };
 
             _context.Wypozyczenia.Add(wypozyczenie);
-            auto.Dostepny = false;
+
+            // Zmień status samochodu na wypożyczony
+            auto.Status = StatusSamochodu.Wypozyczony;
 
             _context.SaveChanges();
 

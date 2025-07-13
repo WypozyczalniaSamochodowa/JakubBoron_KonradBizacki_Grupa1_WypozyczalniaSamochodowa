@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using projekt.Data;
 
@@ -10,9 +11,11 @@ using projekt.Data;
 namespace projekt.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250712151852_AddStatusToSamochody")]
+    partial class AddStatusToSamochody
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.6");
@@ -213,6 +216,41 @@ namespace projekt.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Wypozyczenie", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("CarId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<decimal>("CenaCalkowita")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("DataDo")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("DataOd")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("KlientId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("KlientId1")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CarId");
+
+                    b.HasIndex("KlientId");
+
+                    b.HasIndex("KlientId1");
+
+                    b.ToTable("Wypozyczenia");
+                });
+
             modelBuilder.Entity("projekt.Models.Car", b =>
                 {
                     b.Property<int>("Id")
@@ -291,41 +329,6 @@ namespace projekt.Migrations
                     b.ToTable("Klienci");
                 });
 
-            modelBuilder.Entity("projekt.Models.Wypozyczenie", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("CarId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<decimal>("CenaCalkowita")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("DataDo")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("DataOd")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("KlientId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("KlientId1")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CarId");
-
-                    b.HasIndex("KlientId");
-
-                    b.HasIndex("KlientId1");
-
-                    b.ToTable("Wypozyczenia");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -377,7 +380,7 @@ namespace projekt.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("projekt.Models.Wypozyczenie", b =>
+            modelBuilder.Entity("Wypozyczenie", b =>
                 {
                     b.HasOne("projekt.Models.Car", "Car")
                         .WithMany("Wypozyczenia")
