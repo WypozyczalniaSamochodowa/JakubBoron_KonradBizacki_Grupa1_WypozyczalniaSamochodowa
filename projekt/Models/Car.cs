@@ -26,7 +26,7 @@ namespace projekt.Models
         public string Naped { get; set; }
         public string Opis { get; set; }
 
-        public ICollection<Wypozyczenie> Wypozyczenia { get; set; } // nawigacja do wypożyczeń
+        public ICollection<Wypozyczenie> Wypozyczenia { get; set; } 
     }
 
     public enum StatusSamochodu

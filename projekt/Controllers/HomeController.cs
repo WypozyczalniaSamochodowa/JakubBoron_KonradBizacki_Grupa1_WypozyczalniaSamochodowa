@@ -36,14 +36,12 @@ namespace projekt.Controllers
                 return NotFound();
             }
 
-            // Debug: sprawdź autentykację i rolę
             var isAdmin = User.IsInRole("Admin");
             var isAuthenticated = User.Identity.IsAuthenticated;
 
             ViewBag.IsAdmin = isAdmin;
             ViewBag.IsAuthenticated = isAuthenticated;
 
-            // Pozwól administratorowi oglądać nawet niedostępne auta
             if (car.Status != StatusSamochodu.Dostepny)
             {
                 if (!isAuthenticated || !isAdmin)

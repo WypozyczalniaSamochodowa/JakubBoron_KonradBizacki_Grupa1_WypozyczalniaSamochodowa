@@ -1,4 +1,4 @@
-﻿/* Podstawowe ustawienia */
+﻿
 body {
     margin: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -6,7 +6,6 @@ body {
     color: #eee;
 }
 
-/* Główny kontener: flex na poziomo */
 .glowny {
     max-width: 1100px;
     margin: 40px auto;
@@ -16,19 +15,17 @@ body {
     align-items: flex-start;
 }
 
-/* Lewa kolumna (dane + formularz) */
+
 .lewa {
     flex: 1 1 550px;
     min-width: 320px;
 }
 
-/* Prawa kolumna (zdjęcie i opis) */
 .prawa {
     flex: 1 1 450px;
     min-width: 300px;
 }
 
-/* Nagłówek modelu */
 h2 {
     font-size: 2.4rem;
     font-weight: 700;
@@ -37,7 +34,6 @@ h2 {
     text-shadow: 0 0 8px #ff2d2d;
 }
 
-/* Informacje o samochodzie */
 .lewa > p, .lewa > strong {
     font-size: 1.1rem;
     margin-bottom: 10px;
@@ -50,7 +46,6 @@ h2 {
     font-size: 1.2rem;
 }
 
-/* Formularz */
 form {
     background: #1c1c1c;
     padding: 20px 25px;
@@ -59,14 +54,12 @@ form {
     margin-top: 20px;
 }
 
-/* Label */
 label {
     display: block;
     margin-bottom: 6px;
     font-weight: 600;
 }
 
-/* Inputy, checkbox */
 input[type="text"],
 input[type="email"],
 input[type="tel"],
@@ -82,7 +75,6 @@ input[type="number"] {
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-    /* Podświetlenie inputa na focus */
     input[type="text"]:focus,
     input[type="email"]:focus,
     input[type="tel"]:focus,
@@ -92,18 +84,15 @@ input[type="number"] {
         outline: none;
     }
 
-/* Checkbox */
 input[type="checkbox"] {
     margin-right: 8px;
     accent-color: #ff2d2d;
 }
 
-/* Całkowity koszt */
 form p strong {
     font-size: 1.15rem;
 }
 
-/* Lista rabatów */
 form ul {
     list-style-type: disc;
     padding-left: 20px;
@@ -112,7 +101,6 @@ form ul {
     color: #bbb;
 }
 
-/* Przycisk wypożycz */
 button[type="submit"] {
     background-color: #ff2d2d;
     border: none;
@@ -132,7 +120,6 @@ button[type="submit"] {
         box-shadow: 0 0 15px #ff2d2d;
     }
 
-/* Historia wypożyczeń - tabela */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -158,7 +145,6 @@ tr:hover {
     background-color: #2b2b2b;
 }
 
-/* Link powrotu */
 .back-link {
     display: inline-block;
     margin-top: 30px;
@@ -173,7 +159,6 @@ tr:hover {
         color: #ff5555;
     }
 
-/* Zdjęcie auta */
 .car-image {
     max-width: 100%;
     height: auto;
@@ -188,7 +173,6 @@ tr:hover {
         box-shadow: 0 0 30px #ff2d2d;
     }
 
-/* Opis samochodu */
 .prawa > p:first-child {
     font-weight: 700;
     font-size: 1.3rem;
@@ -204,7 +188,6 @@ tr:hover {
     margin-bottom: 25px;
 }
 
-/* Responsywność na mniejsze ekrany */
 @media (max-width: 850px) {
     .glowny {
         flex-direction: column;

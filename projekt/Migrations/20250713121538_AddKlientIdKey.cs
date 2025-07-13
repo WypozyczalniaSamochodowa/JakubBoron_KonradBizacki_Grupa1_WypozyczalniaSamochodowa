@@ -4,10 +4,10 @@
 
 namespace projekt.Migrations
 {
-    /// <inheritdoc />
+
     public partial class AddKlientIdKey : Migration
     {
-        /// <inheritdoc />
+
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
@@ -23,7 +23,6 @@ namespace projekt.Migrations
                 table: "Wypozyczenia");
         }
 
-        /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<int>(

@@ -129,7 +129,6 @@
 
 <script>
     (function() {
-        // Parsujemy cenę za dzień jako liczbe (z Razor wyciągamy wartość)
         const cenaZaDzien = parseFloat('@Model.CenaZaDzien'.replace(',', '.'));
 
         const dniInput = document.getElementById('dni');
@@ -143,19 +142,19 @@
             let cena = cenaZaDzien * dni;
 
             if (dni >= 30) {
-                cena *= 0.85; // 15% rabatu
+                cena *= 0.85; 
             } else if (dni >= 7) {
-                cena *= 0.90; // 10% rabatu
+                cena *= 0.90; 
             }
 
             calkowitaCenaSpan.textContent = cena.toFixed(2);
         }
 
         if (dniInput && calkowitaCenaSpan) {
-            // Zaktualizuj od razu po załadowaniu
+            
             aktualizujCene();
 
-            // Odświeżaj cenę na bieżąco, gdy zmienia się input
+            
             dniInput.addEventListener('input', aktualizujCene);
         }
 

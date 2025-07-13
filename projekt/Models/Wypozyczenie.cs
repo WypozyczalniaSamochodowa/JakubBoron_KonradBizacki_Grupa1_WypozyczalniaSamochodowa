@@ -8,10 +8,10 @@ namespace projekt.Models
         public int Id { get; set; }
 
         public int KlientId { get; set; }
-        public Klient Klient { get; set; }    // nawigacja do klienta
+        public Klient Klient { get; set; }   
 
         public int CarId { get; set; }
-        public Car Car { get; set; }          // nawigacja do auta
+        public Car Car { get; set; }      
 
         public DateTime DataOd { get; set; }
         public DateTime DataDo { get; set; }

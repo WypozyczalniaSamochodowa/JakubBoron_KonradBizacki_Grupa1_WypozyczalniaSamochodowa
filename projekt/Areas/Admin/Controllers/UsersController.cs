@@ -22,6 +22,5 @@ namespace projekt.Areas.Admin.Controllers
             return View(users);
         }
 
-        // Możesz dodać więcej akcji np. Edit, Delete, Create
     }
 }

@@ -4,10 +4,10 @@
 
 namespace projekt.Migrations
 {
-    /// <inheritdoc />
+
     public partial class UpdateCarStatus : Migration
     {
-        /// <inheritdoc />
+ 
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.RenameColumn(
@@ -16,7 +16,6 @@ namespace projekt.Migrations
                 newName: "Status");
         }
 
-        /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.RenameColumn(

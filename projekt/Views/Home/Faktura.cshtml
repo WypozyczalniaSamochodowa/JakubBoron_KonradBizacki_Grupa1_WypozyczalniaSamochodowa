@@ -1,11 +1,11 @@
 ﻿@model projekt.Models.Wypozyczenie
 
 @{
-    Layout = null; // Faktura zazwyczaj bez layoutu, czysta strona do PDF
-    var numerFaktury = "FV-" + Model.Id.ToString("D5"); // np. FV-00001
+    Layout = null; 
+    var numerFaktury = "FV-" + Model.Id.ToString("D5"); 
     var dataFaktury = DateTime.Now.ToString("dd.MM.yyyy");
-    var dataPlatnosci = Model.DataDo.AddDays(14).ToString("dd.MM.yyyy"); // np. termin płatności 14 dni od zakończenia wypożyczenia
-    var kontoBankowe = "12 3456 7890 1234 5678 9012 3456"; // losowy numer konta
+    var dataPlatnosci = Model.DataDo.AddDays(14).ToString("dd.MM.yyyy"); 
+    var kontoBankowe = "12 3456 7890 1234 5678 9012 3456"; 
     var nazwaFirmy = "ToFastToRent Sp. z o.o.";
     var adresFirmy = "ul. Neonowa 7, 00-123 Warszawa";
     var nip = "123-456-78-90";

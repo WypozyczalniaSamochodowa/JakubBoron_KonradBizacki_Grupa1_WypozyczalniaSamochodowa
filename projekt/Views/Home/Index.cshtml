@@ -117,7 +117,6 @@
             color: black;
         }
 
-    /* Neonowy napis dla statusu */
     .status-label {
         position: absolute;
         top: 10px;
@@ -208,6 +207,42 @@
             border-radius: 10px;
             box-shadow: 0 0 10px #f44336;
         }
+
+    #opinie {
+        text-align: center;
+        color: white;
+        font-family: Arial, sans-serif;
+        padding: 40px 0;
+    }
+
+    .opinie-slider {
+        width: 100%;
+        max-width: 800px;
+        height: 160px;
+        margin: 0 auto;
+        overflow: hidden;
+        position: relative;
+        border: 2px solid red;
+        border-radius: 15px;
+        background-color: #111;
+        box-shadow: 0 0 10px red;
+    }
+
+    .slide {
+        width: 100%;
+        height: 100%;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        padding: 20px;
+        box-sizing: border-box;
+    }
+
+        .slide.active {
+            display: flex;
+        }
+
 </style>
 
 <div class="top-bar">
@@ -273,43 +308,87 @@
 
 <div id="opinie" class="opinie">
     <h2>Opinie naszych klientów</h2>
-    <div class="opinie-container" id="opinieSlider">
-        <div class="opinia">"Świetna obsługa, auto jak z marzeń!" – Krzysiek</div>
-        <div class="opinia">"Polecam każdemu, szybki wynajem i super cena!" – Marta</div>
-        <div class="opinia">"Ferrari idealne na weekend w górach." – Bartek</div>
-        <div class="opinia">"Szybko, sprawnie i z klasą!" – Dominika</div>
-        <div class="opinia">"Mega klimat, na pewno wrócę!" – Michał</div>
+    <div class="opinie-slider" id="slider">
+        <div class="slide">"Świetna obsługa, auto jak z marzeń!" – Krzysiek</div>
+        <div class="slide">"Polecam każdemu, szybki wynajem i super cena!" – Marta</div>
+        <div class="slide">"Ferrari idealne na weekend w górach." – Bartek</div>
+        <div class="slide">"Szybko, sprawnie i z klasą!" – Dominika</div>
+        <div class="slide">"Mega klimat, na pewno wrócę!" – Michał</div>
+        <div class="slide">"Bardzo pomocna obsługa, wrócę na pewno!" – Alicja</div>
+        <div class="slide">"Czułem się jak w filmie akcji!" – Paweł</div>
+        <div class="slide">"Auto idealne na ważne wydarzenie." – Natalia</div>
+        <div class="slide">"Luksus i komfort w jednym." – Tomek</div>
+        <div class="slide">"Nie spodziewałem się tak dobrej jakości." – Kasia</div>
+        <div class="slide">"Topowa firma wynajmująca auta!" – Jacek</div>
     </div>
 </div>
+
+
+
 
 <div id="kontakt" class="kontakt">
     <h3>Kontakt</h3>
     <p>Email: kontakt@tofasttorent.pl</p>
     <p>Telefon: +48 123 456 789</p>
-    <p>Adres: ul. Neonowa 7, 00-123 Warszawa</p>
+    <p>Adres: ul. Francuska 47 , 40-028 Katowice</p>
 </div>
 
 <div class="mapa">
     <h3>Lokalizacje naszych samochodów</h3>
-    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2443.0603212109864!2d21.012228!3d52.229675!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNTLCsDEzJzQ2LjgiTiAyMcKwMDAnNDQuMCJF!5e0!3m2!1spl!2spl!4v1611111111111" allowfullscreen="" loading="lazy"></iframe>
+    <iframe src="https://www.google.com/maps/d/embed?mid=1CRNTSkgeD9hknfwxsQGv_Vk7PGsM2dU&ehbc=2E312F" allowfullscreen="" loading="lazy"></iframe>
 </div>
-
+   
 <script>
-    let carIndex = 0;
-    const slider = document.getElementById('carSlider');
-    const cardWidth = 320; // width + gap
+    document.addEventListener("DOMContentLoaded", () => {
+      const slides = document.querySelectorAll(".slide");
+      const slider = document.getElementById("slider");
+      let current = 0;
+      let intervalId;
 
-    function nextCar() {
-        if (carIndex < slider.children.length - 3) {
-            carIndex++;
-            slider.style.transform = `translateX(-${carIndex * cardWidth}px)`;
-        }
-    }
+      function showSlide(index) {
+        slides.forEach((slide, i) => {
+          slide.classList.toggle("active", i === index);
+        });
+      }
 
-    function prevCar() {
-        if (carIndex > 0) {
-            carIndex--;
-            slider.style.transform = `translateX(-${carIndex * cardWidth}px)`;
+      function nextSlide() {
+        current = (current + 1) % slides.length;
+        showSlide(current);
+      }
+
+      function startSlider() {
+        intervalId = setInterval(nextSlide, 5000);
+      }
+
+      function stopSlider() {
+        clearInterval(intervalId);
+      }
+
+      showSlide(current);
+      startSlider();
+
+      if (slider) {
+        slider.addEventListener("mouseenter", stopSlider);
+        slider.addEventListener("mouseleave", startSlider);
+      }
+
+      let carIndex = 0;
+      const carSlider = document.getElementById('carSlider');
+      const cardWidth = 320; 
+
+      window.nextCar = function() {
+        if (carSlider && carIndex < carSlider.children.length - 3) {
+          carIndex++;
+          carSlider.style.transform = `translateX(-${carIndex * cardWidth}px)`;
         }
-    }
+      }
+
+      window.prevCar = function() {
+        if (carSlider && carIndex > 0) {
+          carIndex--;
+          carSlider.style.transform = `translateX(-${carIndex * cardWidth}px)`;
+        }
+      }
+    });
 </script>
+

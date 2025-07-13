@@ -25,7 +25,6 @@ namespace projekt.Models
         [Phone]
         public string Telefon { get; set; }
 
-        // Kolekcja wypożyczeń klienta
         public ICollection<Wypozyczenie> Wypozyczenia { get; set; } = new List<Wypozyczenie>();
     }
 }
