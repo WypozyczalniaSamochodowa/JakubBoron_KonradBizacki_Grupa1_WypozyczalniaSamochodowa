@@ -16,6 +16,7 @@ Projekt ASP.NET Core 8 z Razor Pages do zarządzania wypożyczalnią samochodów
 - [Instalacja](#instalacja)
 - [Schemat bazy danych](#schemat-bazy-danych)
 - [Możliwości rozwoju](#możliwości-rozwoju)
+- [Zdjecia z storny](#Zdjecia-z-strony)
 - [Autorzy](#autorzy)
 
 ---
@@ -168,6 +169,13 @@ Przy starcie aplikacji baza danych jest inicjalizowana przez `CarService`.
 
 ---
 
+## Zdjecia z strony 
+<i>Podgląd strony głównej</i>
+![Podgląd strony głównej](projekt/wwwroot/zdjecia/1.png)
+![Podgląd strony głównej](projekt/wwwroot/zdjecia/3.png)
+
+<i>Podgląd wyporzyczania samochodu</i>
+![Podgląd wyporzyczania samochodu](projekt/wwwroot/zdjecia/2.png)
 ## 👨‍💻 Autorzy
 
 Projekt wykonany przez:
