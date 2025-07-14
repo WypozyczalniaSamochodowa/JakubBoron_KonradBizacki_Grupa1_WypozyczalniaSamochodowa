@@ -1,6 +1,6 @@
 # 🚗 ToFastToRent – Wypożyczalna Samochodów
 
-Projekt ASP.NET Core 8 z Razor Pages do zarządzania wypożyczalnią samochodów. Aplikacja umożliwia przegląd dostępnych pojazdów, filtrowanie, sortowanie i wyszukiwanie modeli oraz dokonywanie rezerwacji. Obsługuje role użytkownika i administratora oraz działa na bazie danych SQLite.
+Projekt ASP.NET Core 8 z Razor Pages do zarządzania wypożyczalnią samochodów. Aplikacja umożliwia przegląd dostępnych pojazdów oraz dokonywanie rezerwacji. Obsługuje role użytkownika i administratora oraz działa na bazie danych SQLite.
 
 ---
 
