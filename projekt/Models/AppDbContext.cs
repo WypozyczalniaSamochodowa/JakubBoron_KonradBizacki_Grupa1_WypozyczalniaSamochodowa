@@ -41,7 +41,8 @@ namespace projekt.Data
                 .ValueGeneratedOnAdd();
         }
 
-        public void Seed()
+        public void Seed
+            ()
         {
             if (!Samochody.Any())
             {

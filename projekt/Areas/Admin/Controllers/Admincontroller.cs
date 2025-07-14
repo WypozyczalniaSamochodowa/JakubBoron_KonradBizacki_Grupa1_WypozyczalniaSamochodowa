@@ -19,6 +19,10 @@ namespace projekt.Areas.Admin.Controllers
 
         public IActionResult Index()
         {
+            if (!User.IsInRole("Admin"))
+            {
+                Console.WriteLine("Użytkownik nie ma roli Admin!");
+            }
             var viewModel = new AdminViewModel
             {
                 Samochody = _db.Samochody.ToList(),
