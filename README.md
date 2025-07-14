@@ -171,11 +171,11 @@ Przy starcie aplikacji baza danych jest inicjalizowana przez `CarService`.
 
 ## Zdjecia z strony 
 <i>Podgląd strony głównej</i>
-![Podgląd strony głównej](projekt/wwwroot/zdjecia/1.png)
-![Podgląd strony głównej](projekt/wwwroot/zdjecia/3.png)
+![Podgląd strony głównej](projekt/wwwroot/zdjecia/1.PNG)
+![Podgląd strony głównej](projekt/wwwroot/zdjecia/3.PNG)
 
 <i>Podgląd wyporzyczania samochodu</i>
-![Podgląd wyporzyczania samochodu](projekt/wwwroot/zdjecia/2.png)
+![Podgląd wyporzyczania samochodu](projekt/wwwroot/zdjecia/2.PNG)
 ## 👨‍💻 Autorzy
 
 Projekt wykonany przez:
