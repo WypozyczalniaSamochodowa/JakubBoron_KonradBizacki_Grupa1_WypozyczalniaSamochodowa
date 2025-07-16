@@ -174,8 +174,8 @@ Przy starcie aplikacji baza danych jest inicjalizowana przez `CarService`.
 ![Podgląd strony głównej](projekt/wwwroot/zdjecia/1.PNG)
 ![Podgląd strony głównej](projekt/wwwroot/zdjecia/3.PNG)
 
-<i>Podgląd wyporzyczania samochodu</i>
-![Podgląd wyporzyczania samochodu](projekt/wwwroot/zdjecia/2.PNG)
+<i>Podgląd wypożyczania samochodu</i>
+![Podgląd wypozyczania samochodu](projekt/wwwroot/zdjecia/2.PNG)
 ## 👨‍💻 Autorzy
 
 Projekt wykonany przez:
